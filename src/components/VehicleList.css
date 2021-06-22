@@ -1,0 +1,9 @@
+.vehicle-list {
+    max-width: 30%;
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-list__title {
+    text-align: center;
+}
