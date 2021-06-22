@@ -1,0 +1,20 @@
+/* * {
+  box-sizing: border-box;
+}
+
+.traffic-streamer {
+  float: left;
+  width: 60%;
+}
+
+.vehicle-list {
+  float: left;
+  width: 40%;
+}
+
+@media screen and (max-width: 800px) {
+  .traffic-streamer,
+  .vehicle-list {
+    width: 100%;
+  }
+} */

@@ -3,7 +3,7 @@ import "./TrafficStreamer.css";
 
 const TrafficStreamer = (props) => {
     return (
-        <div className="streamer">
+        <div className="traffic-streamer">
             <p>Hello world</p>
         </div>
     )

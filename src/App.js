@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import UserProfile from "./components/UserProfile";
-import TrafficController from "./components/TrafficController";
+import UserProfile from "./components/UserProfile/UserProfile";
+import TrafficController from "./components/TrafficController/TrafficController";
 
 function App() {
   return (
