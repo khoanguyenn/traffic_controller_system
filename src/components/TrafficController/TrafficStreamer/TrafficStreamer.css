@@ -1,8 +1,7 @@
 .traffic-streamer {
     width: 100%;
     height: 100%;
-}
-.traffic-player {
-    padding: 15px;
     border-radius: 5px;
+    overflow: hidden;
+    background-color: lightcyan
 }
