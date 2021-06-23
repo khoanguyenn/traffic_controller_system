@@ -1,0 +1,9 @@
+/api/healthcheck:
+  $ref: ./healthcheck/healthcheck.yml
+
+/api/device/list-device:
+  $ref: ./device/list-device.yml
+
+/api/device/get-device:
+  $ref: ./device/get-device.yml
+

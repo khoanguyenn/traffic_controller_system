@@ -1,0 +1,17 @@
+image: node:14-alpine
+
+before_script:
+  - apk add --update make
+  - npm install redoc-cli swagger-ui-watcher -g
+  - mkdir public
+
+pages:
+  stage: deploy
+  script:
+  - make doc
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+  - alpha

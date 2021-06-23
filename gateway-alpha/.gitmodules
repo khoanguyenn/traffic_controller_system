@@ -1,0 +1,9 @@
+[submodule "services/insight-server"]
+	path = services/insight-server
+	url = git@gitlab.com:nanocent/ai-portal/insight-server.git
+	branch=alpha
+
+[submodule "services/socketio-server"]
+	path = services/socketio-server
+	url = git@gitlab.com:nanocent/ai-portal/socketio-server.git
+	branch=alpha

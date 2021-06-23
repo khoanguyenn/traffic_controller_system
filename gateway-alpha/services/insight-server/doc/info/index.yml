@@ -1,0 +1,6 @@
+description: 'This is REST API documentation for AI Insight App.'
+version: '0.1.0'
+title: 'REST APIs for  AI Insight'
+termsOfService: 'http://localhost:8080.com'
+contact:
+  email: 'khanghua1505@gmail.com'

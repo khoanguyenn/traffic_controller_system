@@ -1,0 +1,20 @@
+swagger: '2.0'
+info:
+  $ref: ./info/index.yml
+host: 'nano.itrvn.vn'
+basePath: '/'
+
+schemes:
+- 'https'
+
+tags:
+- name: 'HealthCheck'
+  description: 'HealthCheck API'
+- name: 'Device'
+  description: 'Device APIs'
+
+paths:
+  $ref: ./paths/index.yml
+
+definitions:
+  $ref: ./definitions/index.yml

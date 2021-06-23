@@ -1,0 +1,17 @@
+get:
+  tags:
+  - 'HealthCheck'
+  summary: 'HealthCheck'
+  description: ''
+  operationId: HealthCheck
+  produces:
+    - application/json
+  responses:
+    200:
+      description: 'OK'
+      schema:
+        type: object
+        properties:
+          isSuccess:
+            type: boolean
+            default: true

@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg12
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_PASSWORD=admin1234
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./scripts/create_schemas.sql:/docker-entrypoint-initdb.d/init.sql
+      - data:/var/lib/postgresql/data
+  # rtmp-hls:
+  #   image: alqutami/rtmp-hls:latest-alpine
+  #   ports:
+  #     - "1935:1935"
+  #     - "8088:8080"
+  insight-server:
+    build: ./services/insight-server
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=test
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=admin1234
+      - DB_NAME=tests
+      - DB_HOST=timescaledb
+      - DB_PORT=5432
+      - RTMP_HOST=172.93.167.177
+    volumes:
+      - public:/tmp/public
+  socketio-server:
+    build: ./services/socketio-server
+    ports:
+      - "5050:5000"
+    environment:
+      - NODE_ENV=test
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=admin1234
+      - DB_NAME=tests
+      - DB_HOST=timescaledb
+      - DB_PORT=5432
+    volumes:
+      - public:/tmp/public
+volumes:
+  public:
+  data:

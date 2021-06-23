@@ -1,0 +1,13 @@
+# api/device/list-device api
+ListDeviceSuccess:
+  $ref: ./device/list-device/200.yml
+ListDeviceFail500:
+  $ref: ./device/list-device/500.yml
+
+# api/device/get-device api
+GetDeviceSuccess: 
+  $ref: ./device/get-device/200.yml
+GetDeviceFail404:
+  $ref: ./device/get-device/404.yml
+GetDeviceFail500:
+  $ref: ./device/get-device/500.yml
