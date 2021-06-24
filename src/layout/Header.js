@@ -36,6 +36,11 @@ function Header() {
     setAnchorEl(null);
   };
 
+  const handleToProfile = () => {
+    setAnchorEl(null);
+    history.push("/profile")
+  }
+
   const handleSignOut = () => {
     setAnchorEl(null);
     auth.signout(() => history.push("/"));
@@ -74,9 +79,7 @@ function Header() {
                 open={open}
                 onClose={handleClose}
               >
-                <Link to="/profile" className="menu__profile">
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                </Link>
+                <MenuItem onClick={handleToProfile}>Profile</MenuItem>
                 
                 <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </Menu>
