@@ -79,7 +79,7 @@ function Header() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleToProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleToProfile}>My Profile</MenuItem>
                 
                 <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </Menu>
