@@ -40,7 +40,6 @@ const DeviceList = (props) => {
     const history = useHistory();
 
     const goToStreamScreen = (deviceId) => {
-      console.log(Endpoint.DEVICE_SCREEN_URL + deviceId);
       history.push(Endpoint.DEVICE_SCREEN_URL + deviceId)
     };
 
