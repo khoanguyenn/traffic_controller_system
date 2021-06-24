@@ -1,9 +1,11 @@
 import Divider from "@material-ui/core/Divider";
-import React from "react";
+import React, { useCallback } from "react";
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import {Endpoint} from "../../../api/endpoints"
 
 const useStyles = makeStyles({
   root: {
@@ -24,11 +26,22 @@ const useStyles = makeStyles({
   textbox: {
     clear: "both",
     height: 50,
+    paddingLeft: 15,
+    paddingRight: 15,
+    "&:hover": {
+      background: "#efefef"
+    },
   },
 });
 
 const DeviceList = (props) => {
     const classes = useStyles();
+    const history = useHistory();
+
+    const goToStreamScreen = (deviceId) => {
+      console.log(Endpoint.DEVICE_SCREEN_URL + deviceId);
+      history.push(Endpoint.DEVICE_SCREEN_URL + deviceId)
+    };
 
     return (
         <Card className={classes.root} variant="outlined">
@@ -39,24 +52,17 @@ const DeviceList = (props) => {
 
             {props.deviceList.length === 0 &&
                 <Typography variant="caption" display="block" gutterBottom>
-                    There is not any devices.
+                    There is no devices.
                 </Typography>
             }
 
-            {props.deviceList.length >= 1 &&
-                <div className={classes.textbox}>
-                <p className={classes.alignleft}>Device {props.deviceList[0].id}</p>
-                <p className={classes.alignright}>{props.deviceList[0].status}</p>
-                </div>
-            }
-
-            {props.deviceList.length >= 1 &&
+            {props.deviceList.length > 0 &&
                 <React.Fragment>
-                    {props.deviceList.slice(1).map((deviceItem) => (
+                    {props.deviceList.map((deviceItem) => (
                         <React.Fragment>
                             <Divider />
-                            <div className={classes.textbox}>
-                            <p className={classes.alignleft}>Device {deviceItem.id}</p>
+                            <div onClick={() => goToStreamScreen(deviceItem.id)} className={classes.textbox}>
+                            <p className={classes.alignleft}>{deviceItem.name}</p>
                             <p className={classes.alignright}>{deviceItem.status}</p>
                             </div>
                         </React.Fragment>

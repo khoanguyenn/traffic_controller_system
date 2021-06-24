@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./TrafficController.css";
 import VehicleList from "./VehicleList/VehicleList";
 import TrafficStream from "./TrafficStreamer/TrafficStreamer";
 import Layout from "../../layout/Layout";
 import Grid from "@material-ui/core/Grid";
+import {
+  useParams
+} from "react-router-dom";
 
 const TrafficController = (props) => {
+  let { id } = useParams();
   const videoJsOptions = {
     autoplay: true,
     controls: true,
@@ -16,6 +20,10 @@ const TrafficController = (props) => {
       },
     ],
   };
+
+  useEffect(() => {
+    console.log('deviceId: ' + id);
+  }, []);
 
   return (
     <Layout>

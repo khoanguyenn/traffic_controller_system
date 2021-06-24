@@ -14,7 +14,7 @@ const UserProfile = (props) => {
 
   const fetchUserInfoHandler = useCallback(async () => {
     const userInfo = await API.getUserInfo();
-    const deviceList = await API.getDeviceList();
+    const deviceList = await API.getListDevices();
     setUserInfo(userInfo);
     setDeviceList(deviceList);
   });

@@ -16,14 +16,8 @@ export async function getUserInfo() {
   }
 }
 
-export async function getDeviceList() {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return [
-      {id: 1, status: 'on'},
-      {id: 2, status: 'off'},
-      {id: 3, status: 'on'},
-      {id: 4, status: 'off'},
-      {id: 5, status: 'on'},
-      {id: 6, status: 'off'},
-    ]
+export async function getListDevices() {
+  const response = await fetch(Endpoint.LIST_DEVICES)
+  const jsonResp = await response.json();
+  return jsonResp.devices;
 }
