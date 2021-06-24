@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./TrafficController.css";
 import VehicleList from "./VehicleList/VehicleList";
 import TrafficStream from "./TrafficStreamer/TrafficStreamer";
@@ -9,27 +9,13 @@ import {
 } from "react-router-dom";
 
 const TrafficController = (props) => {
-  let { id } = useParams();
-  const videoJsOptions = {
-    autoplay: true,
-    controls: true,
-    sources: [
-      {
-        src: "http://127.0.0.1:8888/live/khoanguyen/index.m3u8",
-        type: "application/x-mpegURL",
-      },
-    ],
-  };
-
-  useEffect(() => {
-    console.log('deviceId: ' + id);
-  }, []);
-
+  let { deviceId } = useParams();
+  
   return (
     <Layout>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
-          <TrafficStream {...videoJsOptions} />
+          <TrafficStream deviceId={deviceId} />
         </Grid>
         <Grid item xs={12} md={4}>
           <VehicleList />

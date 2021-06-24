@@ -29,7 +29,8 @@ const useStyles = makeStyles({
     paddingLeft: 15,
     paddingRight: 15,
     "&:hover": {
-      background: "#efefef"
+      background: "#efefef",
+      cursor: "pointer"
     },
   },
 });

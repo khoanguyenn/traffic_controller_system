@@ -21,3 +21,9 @@ export async function getListDevices() {
   const jsonResp = await response.json();
   return jsonResp.devices;
 }
+
+export async function getDevice(deviceId) {
+  const response = await fetch(Endpoint.GET_DEVICE + deviceId);
+  const jsonResp = await response.json();
+  return jsonResp;
+}

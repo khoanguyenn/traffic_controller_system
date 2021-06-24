@@ -1,20 +1,31 @@
 import "./TrafficStreamer.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactHlsPlayer from "react-hls-player";
-import Paper from "@material-ui/core/Paper";
+import * as API from "../../../api/apiclient";
+import {Endpoint} from "../../../api/endpoints"
 
-export default class TrafficStreamer extends React.Component {
-  render() {
-    return (
-      <div className="traffic-streamer">
-        <ReactHlsPlayer
-          src="http://127.0.0.1:8888/live/khoanguyen/index.m3u8"
-          autoPlay={false}
-          controls={true}
-          width="100%"
-          height="auto"
-        />
-      </div>
-    );
-  }
+const TrafficStreamer = (props) => {
+  const [streamUrl, setStreamUrl] = useState("")
+
+  useEffect(() => {
+    (async (deviceId) => {
+      const deviceInfo = await API.getDevice(deviceId);
+      setStreamUrl(deviceInfo.device.url);
+    })(props.deviceId);
+  }, [])
+
+  return (
+    <div className="traffic-streamer">
+      <p>{streamUrl}</p>
+      <ReactHlsPlayer
+        src={streamUrl}
+        autoPlay={false}
+        controls={true}
+        width="100%"
+        height="auto"
+      />
+    </div>
+  );
 }
+ 
+export default TrafficStreamer;

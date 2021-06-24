@@ -11,7 +11,7 @@ function App() {
           <Route exact path="/home" component={TrafficController}/>
           <Route exact path="/profile" component={UserProfile}/>
           <Route exact path="/login"></Route>
-          <Route path="/home/device/:id" children={<TrafficController />} />
+          <Route path="/home/device/:deviceId" children={<TrafficController />} />
         </Switch>
       </Router>
     </div>
