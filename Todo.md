@@ -10,6 +10,7 @@ Bugs:
   - Fix: store localStorage
 
 Done:
+- ~~Basic login feature~~
 - ~~On user profile page, user can click on the device to navigate to device's stream~~.
 
 Google Drive: https://drive.google.com/drive/u/0/folders/1ww31IBVgXikiV9Hv2wvd5Wu0Ga3J2Kga
