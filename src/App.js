@@ -1,20 +1,41 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import UserProfile from "./components/UserProfile/UserProfile";
 import TrafficController from "./components/TrafficController/TrafficController";
+import React from "react";
+import AuthProvider from "./components/Login/ProvideAuth.js";
+import AuthButton from "./components/Login/AuthButton";
+import LoginPage from "./components/Login/LoginPage";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
+    <AuthProvider.ProvideAuth className="App">
       <Router>
-        <Switch>
-          <Route exact path="/home" component={TrafficController}/>
-          <Route exact path="/profile" component={UserProfile}/>
-          <Route exact path="/login"></Route>
-          <Route path="/home/device/:deviceId" children={<TrafficController />} />
-        </Switch>
+        <div>
+          <AuthButton />
+          <Switch>
+            <Route exact path="/login">
+              <LoginPage />
+            </Route>
+
+            <AuthProvider.PrivateRoute exact path="/">
+              <UserProfile />
+            </AuthProvider.PrivateRoute>
+            <AuthProvider.PrivateRoute exact path="/profile">
+              <UserProfile />
+            </AuthProvider.PrivateRoute>
+            <AuthProvider.PrivateRoute path="/home/device/:deviceId">
+              <TrafficController />
+            </AuthProvider.PrivateRoute>
+          </Switch>
+        </div>
       </Router>
-    </div>
+    </AuthProvider.ProvideAuth>
   );
 }
 
