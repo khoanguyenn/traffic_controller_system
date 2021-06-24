@@ -1,15 +1,16 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import AuthProvider from "../components/Login/ProvideAuth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,13 +23,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  let history = useHistory();
+  let auth = AuthProvider.useAuth();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,6 +35,11 @@ function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSignOut = () => {
+    setAnchorEl(null);
+    auth.signout(() => history.push("/"));
+  }
 
   return (
     <div className={classes.root}>
@@ -74,7 +77,8 @@ function Header() {
                 <Link to="/profile" className="menu__profile">
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                 </Link>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </Menu>
             </div>
           )}

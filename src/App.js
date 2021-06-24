@@ -3,7 +3,6 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import TrafficController from "./components/TrafficController/TrafficController";
 import React from "react";
 import AuthProvider from "./components/Login/ProvideAuth.js";
-import AuthButton from "./components/Login/AuthButton";
 import LoginPage from "./components/Login/LoginPage";
 
 import {
@@ -17,7 +16,6 @@ function App() {
     <AuthProvider.ProvideAuth className="App">
       <Router>
         <div>
-          <AuthButton />
           <Switch>
             <Route exact path="/login">
               <LoginPage />
