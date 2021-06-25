@@ -24,6 +24,7 @@ const TrafficStreamer = (props) => {
         width="100%"
         height="auto"
       />
+      {props.toolBar}
     </div>
   );
 }
