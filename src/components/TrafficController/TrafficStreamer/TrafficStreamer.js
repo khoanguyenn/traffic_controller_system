@@ -8,15 +8,17 @@ const TrafficStreamer = (props) => {
   const [streamUrl, setStreamUrl] = useState("")
 
   useEffect(() => {
-    (async (deviceId) => {
-      const deviceInfo = await API.getDevice(deviceId);
-      setStreamUrl(deviceInfo.device.url);
-    })(props.deviceId);
+    // (async (deviceId) => {
+    //   const deviceInfo = await API.getDevice(deviceId);
+    //   setStreamUrl(deviceInfo.device.url);
+    // })(props.deviceId);
+    setStreamUrl(`https://streaming.www.zdobyc.xyz/live/${props.deviceId}.m3u8`);
+    // setStreamUrl("https://ooyalahd2-f.akamaihd.net/i/mtaeng_delivery@345736/master.m3u8")
   }, [])
 
   return (
     <div className="traffic-streamer">
-      <p>{streamUrl}</p>
+      <p style={{color: 'lightcyan'}}>{streamUrl}</p>
       <ReactHlsPlayer
         src={streamUrl}
         autoPlay={false}
