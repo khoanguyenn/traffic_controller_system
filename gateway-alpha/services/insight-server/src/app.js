@@ -11,6 +11,7 @@ const routes = require('./routes');
 
 // express
 const app = express();
+app.use(express.static(__dirname + '/build'));
 app.use(helmet(
   { contentSecurityPolicy: { directives: { defaultSrc: ["'self'"] } } },
 ));

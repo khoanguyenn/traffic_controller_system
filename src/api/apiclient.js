@@ -9,8 +9,8 @@ export async function getVehicles() {
 export async function getUserInfo() {
   await new Promise(resolve => setTimeout(resolve, 1000));
   return {
-    name: "Nguyễn Ant",
-    email: "D@gmail.comt",
+    name: "Administrator",
+    email: "admin@gmail.com",
     deviceID: "12",
     webIP: "localhost"
   }
