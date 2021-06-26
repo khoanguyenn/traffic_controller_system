@@ -32,7 +32,8 @@ async function getDevice(req, res, next) {
       device: {
         id: device.id,
         name: device.name,
-        url: `rtmp://${config.rtmp.host}:${config.rtmp.port}/live/${device.id}`,
+        // url: `rtmp://${config.rtmp.host}:${config.rtmp.port}/live/${device.id}`,
+        url: `https://streaming.www.zdobyc.xyz/live/${deviceId}.m3u8`
       },
     });
   } catch (err) {
