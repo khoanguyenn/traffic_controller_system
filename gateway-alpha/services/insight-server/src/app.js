@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require('path');
 const helmet = require('helmet');
 
 require('./global');
@@ -11,7 +12,7 @@ const routes = require('./routes');
 
 // express
 const app = express();
-app.use(express.static(__dirname + '/build'));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(helmet(
   { contentSecurityPolicy: { directives: { defaultSrc: ["'self'"] } } },
 ));
