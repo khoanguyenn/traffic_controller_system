@@ -1,11 +1,18 @@
 const app = require('./app');
 const config = require('./config');
 
-const server = app.listen(config.port, '0.0.0.0', () => {
+const http = require('http').Server(app);
+
+const server = app.listen(config.port, "0.0.0.0", () => {
   logger.info(`Running on port ${config.port}`);
 });
 
-const io = require('./socket')(server);
+const io = require("./socket")(server, {
+  cors: {
+    origin: "http://localhost:4000",
+    methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "OPTIONS"],
+  },
+});
 
 process.on('uncaughtException', exception => {
   logger.warn(exception);

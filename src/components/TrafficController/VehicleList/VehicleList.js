@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import VehicleCard from "./VehicleCard";
 import * as API from "../../../api/apiclient";
 import "./VehicleList.css";
 import { Typography } from "@material-ui/core";
+import { SocketContext } from "../../../context/socket";
 
-function VehicleList() {
+function VehicleList(props) {
+  const io = useContext(SocketContext);
+
   const [vehicleList, setVehicleList] = useState([]);
   useEffect(() => {
-    async function getVehicleList() {
-      const vehicles = await API.getVehicles();
-      console.log(vehicles);
-      setVehicleList(vehicles);
-    }
-    getVehicleList();
-  }, []);
+    io.on('connection', (socket) => {
+      socket.on(props.deviceId, console.log)
+    });
+    console.log('abc')
+  }, [io]);
 
   return (
       <Grid container spacing={2}>
