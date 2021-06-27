@@ -1,10 +1,7 @@
 Below are features must be fulfilled:
-- Command box for backend
-- Login screens + real auth with endpoints
 - [Optional] Restrict user from viewing device which is not owned by him/her.
-- [Optional] Droplist for select device
-- [Optional] Graph 2d realtime
-- Refresh lost route and page is not loaded.
+
+- [Optional] Graph 2d realtime: https://www.chartjs.org/docs/latest/samples/line/styling.html
 
 Bugs:
 - Logged in -> Refresh -> Require to loggin again. 
@@ -14,5 +11,9 @@ Bugs:
 Done:
 - ~~Basic login feature~~
 - ~~On user profile page, user can click on the device to navigate to device's stream~~.
+- ~~Refresh lost route and page is not loaded.~~
+- ~~Command box for backend~~
+- ~~Login screens + real auth with endpoints~~
+- ~~[Optional] Droplist for select device~~
 
 Google Drive: https://drive.google.com/drive/u/0/folders/1ww31IBVgXikiV9Hv2wvd5Wu0Ga3J2Kga
