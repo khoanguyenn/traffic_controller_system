@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import VehicleCard from "./VehicleCard";
 import "./VehicleList.css";
@@ -11,24 +11,25 @@ const VehicleList = (props) => {
 
   useEffect(() => {
     const deviceId = props.deviceId;
-
-    const fakedata = {
-      deviceId: deviceId,
-      metadata: { count: Math.floor(Math.random() * 100), time: parseFloat("1624779234") },
-    };
-
-    setInterval(() => {socket.emit('message', JSON.stringify(fakedata))}, 1000);
-
-    console.log("deviceId: " + props.deviceId);
-
     socket.emit("join", props.deviceId);
-
-    socket.on("message", console.log);
+    socket.on("message", handleMessage);
   }, [socket]);
 
-  const handleMessage = useCallback((message) => {
-    console.log(message);
-  });
+  const handleMessage = (message) => {
+    const { metadata } = JSON.parse(message);
+
+    // solve concurency problem by placing callback function
+    setVehicleList((vehicleList) => {
+      return [
+        ...vehicleList,
+        {
+          id: metadata.count,
+          url: "https://via.placeholder.com/150",
+          title: metadata.count.toString(),
+        },
+      ];
+    });
+  };
 
   return (
     <Grid container spacing={2}>
@@ -39,7 +40,7 @@ const VehicleList = (props) => {
       </Grid>
       <p>{props.deviceId}</p>
 
-      {vehicleList &&
+      {vehicleList.length > 0 &&
         vehicleList.map((vehicle) => (
           <Grid item xs={6}>
             <VehicleCard vehicle={vehicle} />
