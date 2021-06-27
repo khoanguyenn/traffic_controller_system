@@ -56,7 +56,7 @@ const TrafficController = (props) => {
           <TrafficStream deviceId={deviceId} toolBar={toolBar} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <VehicleList deviceId={{deviceId}}/>
+          <VehicleList deviceId={deviceId}/>
         </Grid>
       </Grid>
       <CommandModal open={open} onClose={handleClose} />
