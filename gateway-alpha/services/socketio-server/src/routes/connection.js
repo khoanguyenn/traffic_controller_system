@@ -32,7 +32,7 @@ module.exports = io => {
           time: new Date(time * 1000),
         });
 
-        socket.emit(deviceId, JSON.stringify(message));
+        io.to(deviceId).emit(deviceId, JSON.stringify(message));
       } catch (err) {
         logger.error('Server error', err.stack || err);
       }

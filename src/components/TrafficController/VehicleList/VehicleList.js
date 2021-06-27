@@ -10,8 +10,10 @@ const VehicleList = (props) => {
   const [vehicleList, setVehicleList] = useState([]);
 
   useEffect(() => {
+    const deviceId = props.deviceId;
+
     const fakedata = {
-      deviceId: "0452de3b-075f-48bd-bcdd-9b629e329c5b",
+      deviceId: deviceId,
       metadata: { count: Math.floor(Math.random() * 100), time: parseFloat("1624779234") },
     };
 
@@ -21,7 +23,7 @@ const VehicleList = (props) => {
 
     socket.emit("join", props.deviceId);
 
-    socket.on(props.deviceId, console.log);
+    socket.on("message", console.log);
   }, [socket]);
 
   const handleMessage = useCallback((message) => {
