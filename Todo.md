@@ -3,6 +3,8 @@ Below are features must be fulfilled:
 - Login screens + real auth with endpoints
 - [Optional] Restrict user from viewing device which is not owned by him/her.
 - [Optional] Droplist for select device
+- [Optional] Graph 2d realtime
+- Refresh lost route and page is not loaded.
 
 Bugs:
 - Logged in -> Refresh -> Require to loggin again. 

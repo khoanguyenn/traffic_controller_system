@@ -3,6 +3,7 @@ const { Device, Vehicle } = require('../models');
 module.exports = io => {
   io.on('connection', socket => {
     socket.on('join', async deviceId => {
+      logger.info('client joined!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! deviceId : ' + deviceId)
       try {
         const device = await Device.findOne({ attributes: ['id'], where: { id: deviceId } });
         if (!device) {
@@ -31,7 +32,7 @@ module.exports = io => {
           time: new Date(time * 1000),
         });
 
-        socket.to(deviceId).emit(JSON.stringify(message));
+        socket.emit(deviceId, JSON.stringify(message));
       } catch (err) {
         logger.error('Server error', err.stack || err);
       }

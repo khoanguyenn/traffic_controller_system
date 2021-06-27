@@ -1,42 +1,52 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import VehicleCard from "./VehicleCard";
-import * as API from "../../../api/apiclient";
 import "./VehicleList.css";
 import { Typography } from "@material-ui/core";
 import { SocketContext } from "../../../context/socket";
 
-function VehicleList(props) {
-  const io = useContext(SocketContext);
-
+const VehicleList = (props) => {
+  const socket = useContext(SocketContext);
   const [vehicleList, setVehicleList] = useState([]);
+
   useEffect(() => {
-    io.on('connection', (socket) => {
-      socket.on(props.deviceId, console.log)
-    });
-    console.log('abc')
-  }, [io]);
+    const fakedata = {
+      deviceId: "0452de3b-075f-48bd-bcdd-9b629e329c5b",
+      metadata: { count: Math.floor(Math.random() * 100), time: parseFloat("1624779234") },
+    };
+
+    setInterval(() => {socket.emit('message', JSON.stringify(fakedata))}, 1000);
+
+    console.log("deviceId: " + props.deviceId);
+
+    socket.emit("join", props.deviceId);
+
+    socket.on(props.deviceId, console.log);
+  }, [socket]);
+
+  const handleMessage = useCallback((message) => {
+    console.log(message);
+  });
 
   return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h6" className="vehicle-list__title">
-            Vehicle detection
-          </Typography>
-        </Grid>
-
-        {vehicleList &&
-          vehicleList.map((vehicle) => (
-            <Grid item xs={6}>
-              <VehicleCard vehicle={vehicle} />
-            </Grid>
-          ))}
-
-        {vehicleList.length === 0 && <p>No vehicle found !</p>}
-
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h6" className="vehicle-list__title">
+          Vehicle detection
+        </Typography>
       </Grid>
+      <p>{props.deviceId}</p>
+
+      {vehicleList &&
+        vehicleList.map((vehicle) => (
+          <Grid item xs={6}>
+            <VehicleCard vehicle={vehicle} />
+          </Grid>
+        ))}
+
+      {vehicleList.length === 0 && <p>No vehicle found !</p>}
+    </Grid>
   );
-}
+};
 
 export default VehicleList;
