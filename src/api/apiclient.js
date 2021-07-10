@@ -1,5 +1,4 @@
 import { Endpoint } from "./endpoints";
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 
 export async function getVehicles() {
   const response = await fetch(Endpoint.GET_VEHICLES);

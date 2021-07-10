@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import MomentUtils from '@date-io/moment';
-import {
-  DateTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import Layout from "../../layout/Layout";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import CircularProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from "@material-ui/core/LinearProgress";
 import VehicleCard from "../TrafficController/VehicleList/VehicleCard";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+
 import * as API from "../../api/apiclient";
 
 const useStyles = makeStyles((theme) => ({
   querySelection: {
     "& > *": {
-      margin: theme.spacing(5),
+      margin: theme.spacing(2),
     },
   },
   label: {
@@ -44,7 +43,10 @@ const VehicleHistory = (props) => {
   const [selectedDateFrom, handleDateChangeFrom] = useState(new Date());
   const [selectedDateTo, handleDateChangeTo] = useState(new Date());
   const [vehicleHistory, setVehicleHistory] = useState([]);
+  const [displayingVehicle, setDisplayingVehicle] = React.useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [page, setPage] = React.useState(1);
+  const ROWS_PER_PAGE = 100;
 
   useEffect(() => {
     (async () => {
@@ -57,15 +59,48 @@ const VehicleHistory = (props) => {
   };
 
   const handleHistoryQuery = async () => {
-    const parsedFrom = moment(new Date(selectedDateFrom)).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
-    const parsedTo = moment(new Date(selectedDateTo)).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+    const parsedFrom = moment(new Date(selectedDateFrom)).format(
+      "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"
+    );
+    const parsedTo = moment(new Date(selectedDateTo)).format(
+      "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]"
+    );
     setLoadingHistory(true);
     (async () => {
-      setVehicleHistory(
-        await API.getVehicleHistory(deviceId, parsedFrom, parsedTo)
+      const _vehicleHistory = await API.getVehicleHistory(
+        deviceId,
+        parsedFrom,
+        parsedTo
       );
+      setVehicleHistory(_vehicleHistory);
+      setDisplayingVehicle(_vehicleHistory.slice(0, ROWS_PER_PAGE));
       setLoadingHistory(false);
     })();
+  };
+
+  const onPrevious = () => {
+    if (page === 1) return;
+    const _currentPage = page - 1;
+    setPage(_currentPage);
+    setDisplayingVehicle(
+      vehicleHistory.slice((_currentPage - 1) * ROWS_PER_PAGE, _currentPage * ROWS_PER_PAGE)
+    );
+  };
+
+  const onNext = () => {
+    console.log(getMaxPage());
+    if (page === getMaxPage()) return;
+    const _currentPage = page + 1;
+    setPage(_currentPage);
+    setDisplayingVehicle(
+      vehicleHistory.slice((_currentPage - 1) * ROWS_PER_PAGE, _currentPage * ROWS_PER_PAGE)
+    );
+  };
+
+  const getMaxPage = () => {
+    return Math.ceil(
+      vehicleHistory ? vehicleHistory.length / ROWS_PER_PAGE : 0
+    );
   };
 
   return (
@@ -120,14 +155,28 @@ const VehicleHistory = (props) => {
           FIND HISTORY
         </Button>
 
-        { loadingHistory && <CircularProgress /> }
+        <ButtonGroup
+          size="medium"
+          color="primary"
+          aria-label="primary button group"
+        >
+          <Button onClick={onPrevious}>PREVIOUS</Button>
+          <Button onClick={onNext}>NEXT</Button>
+        </ButtonGroup>
+        <Typography gutterBottom variant="h6">
+          Page {page} of {getMaxPage()}
+        </Typography>
+
+        {loadingHistory && <CircularProgress />}
 
         {/* Device History */}
         <Grid container spacing={2}>
-          {vehicleHistory.length > 0 &&
-            vehicleHistory.map((vehicle) => (
-              <Grid item xs={3}>
+          {displayingVehicle &&
+            displayingVehicle.length > 0 &&
+            displayingVehicle.map((vehicle, index) => (
+              <Grid item xs={3} key={index}>
                 <VehicleCard
+                  key={index}
                   vehicle={{
                     id: vehicle.count,
                     title: vehicle.title,
