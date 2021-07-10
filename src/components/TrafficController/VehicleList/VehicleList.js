@@ -11,23 +11,26 @@ const VehicleList = (props) => {
 
   useEffect(() => {
     const deviceId = props.deviceId;
+
     socket.emit("join", props.deviceId);
+
     socket.on("message", handleMessage);
+
+    // test
+    // let count = 0;
+    // setInterval(() => {
+    //   handleMessage(JSON.stringify({metadata: {count: count}}));
+    //   count++;
+    //   console.log(vehicleList)
+    // }, 1000)
   }, [socket]);
 
   const handleMessage = (message) => {
     const { metadata } = JSON.parse(message);
 
-    // solve concurency problem by placing callback function
+    // solve concurency problem by placeing callback function
     setVehicleList((vehicleList) => {
-      return [
-        ...vehicleList,
-        {
-          id: metadata.count,
-          url: "https://via.placeholder.com/150",
-          title: metadata.count.toString(),
-        },
-      ];
+      return [...vehicleList, {id: metadata.count, url: 'https://via.placeholder.com/150', title: metadata.count.toString()}];
     });
   };
 

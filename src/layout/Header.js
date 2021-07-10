@@ -41,6 +41,11 @@ function Header() {
     history.push("/profile")
   }
 
+  const handleToVehicleHistory = () => {
+    setAnchorEl(null);
+    history.push("/history")
+  }
+
   const handleSignOut = () => {
     setAnchorEl(null);
     auth.signout(() => history.push("/"));
@@ -80,8 +85,8 @@ function Header() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleToProfile}>My Profile</MenuItem>
-                
-                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+                <MenuItem onClick={handleToVehicleHistory}>Vehicle History</MenuItem>
+                <MenuItem onClick={handleSignOut} styles={{textColor: "red"}}>Sign Out</MenuItem>
               </Menu>
             </div>
           )}
