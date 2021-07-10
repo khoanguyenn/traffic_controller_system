@@ -54,6 +54,9 @@ const VehicleCard = (props) => {
               <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
                 {vehicle.title.length > 25 ? vehicle.title.slice(0, 25).concat("...") : vehicle.title}
               </Typography>
+              {vehicle.time && <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
+                {vehicle.time}
+              </Typography>}
             </CardContent>
         </CardActionArea>
       </Card>

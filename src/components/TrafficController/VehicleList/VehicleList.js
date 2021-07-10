@@ -12,29 +12,29 @@ const VehicleList = (props) => {
   useEffect(() => {
     const deviceId = props.deviceId;
 
-    socket.emit("join", props.deviceId);
-
+    socket.emit("join", deviceId);
     socket.on("message", handleMessage);
 
-    // test
-    // let count = 0;
-    // setInterval(() => {
-    //   handleMessage(JSON.stringify({metadata: {count: count}}));
-    //   count++;
-    //   console.log(vehicleList)
-    // }, 1000)
+    return () => {
+      socket.emit("leave", deviceId);
+    };
   }, [socket]);
 
   const handleMessage = (message) => {
     const { metadata } = JSON.parse(message);
-    console.log(metadata)
     // solve concurency problem by placeing callback function
     setVehicleList((vehicleList) => {
       if (vehicleList.length < 30) {
-        return [...vehicleList, {id: metadata.count, url: metadata.image, title: metadata.count.toString()}];
+        return [
+          ...vehicleList,
+          { id: metadata.count, url: metadata.image, title: metadata.title },
+        ];
       } else {
         vehicleList.shift();
-        return [...vehicleList, {id: metadata.count, url: metadata.image, title: metadata.count.toString()}];
+        return [
+          ...vehicleList,
+          { id: metadata.count, url: metadata.image, title: metadata.title },
+        ];
       }
     });
   };
@@ -54,7 +54,7 @@ const VehicleList = (props) => {
           </Grid>
         ))}
 
-      {vehicleList.length === 0 && <p>No vehicle found !</p>}
+      {vehicleList.length === 0 && <p>No vehicle found!</p>}
     </Grid>
   );
 };

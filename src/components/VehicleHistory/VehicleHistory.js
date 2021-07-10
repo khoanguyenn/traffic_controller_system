@@ -46,7 +46,8 @@ const VehicleHistory = (props) => {
   const [displayingVehicle, setDisplayingVehicle] = React.useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [page, setPage] = React.useState(1);
-  const ROWS_PER_PAGE = 100;
+  const [maxPage, setMaxPage] = React.useState(0);
+  const ROWS_PER_PAGE = 32;
 
   useEffect(() => {
     (async () => {
@@ -74,6 +75,7 @@ const VehicleHistory = (props) => {
       );
       setVehicleHistory(_vehicleHistory);
       setDisplayingVehicle(_vehicleHistory.slice(0, ROWS_PER_PAGE));
+      setMaxPage(getMaxPage());
       setLoadingHistory(false);
     })();
   };
@@ -83,17 +85,22 @@ const VehicleHistory = (props) => {
     const _currentPage = page - 1;
     setPage(_currentPage);
     setDisplayingVehicle(
-      vehicleHistory.slice((_currentPage - 1) * ROWS_PER_PAGE, _currentPage * ROWS_PER_PAGE)
+      vehicleHistory.slice(
+        (_currentPage - 1) * ROWS_PER_PAGE,
+        _currentPage * ROWS_PER_PAGE
+      )
     );
   };
 
   const onNext = () => {
-    console.log(getMaxPage());
-    if (page === getMaxPage()) return;
+    if (page === maxPage) return;
     const _currentPage = page + 1;
     setPage(_currentPage);
     setDisplayingVehicle(
-      vehicleHistory.slice((_currentPage - 1) * ROWS_PER_PAGE, _currentPage * ROWS_PER_PAGE)
+      vehicleHistory.slice(
+        (_currentPage - 1) * ROWS_PER_PAGE,
+        _currentPage * ROWS_PER_PAGE
+      )
     );
   };
 
@@ -102,6 +109,10 @@ const VehicleHistory = (props) => {
       vehicleHistory ? vehicleHistory.length / ROWS_PER_PAGE : 0
     );
   };
+
+  const beautifyTime = (time) => {
+    return moment(time).format("DD-MM-yyyy HH:mm")
+  }
 
   return (
     <Layout>
@@ -163,9 +174,11 @@ const VehicleHistory = (props) => {
           <Button onClick={onPrevious}>PREVIOUS</Button>
           <Button onClick={onNext}>NEXT</Button>
         </ButtonGroup>
-        <Typography gutterBottom variant="h6">
-          Page {page} of {getMaxPage()}
-        </Typography>
+        {maxPage > 0 &&
+          <Typography gutterBottom variant="h6">
+            Page {page} of {maxPage}
+          </Typography>
+        }
 
         {loadingHistory && <CircularProgress />}
 
@@ -181,6 +194,7 @@ const VehicleHistory = (props) => {
                     id: vehicle.count,
                     title: vehicle.title,
                     url: vehicle.image,
+                    time: beautifyTime(vehicle.time)
                   }}
                 />
               </Grid>
