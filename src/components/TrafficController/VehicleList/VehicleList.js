@@ -41,7 +41,6 @@ const VehicleList = (props) => {
           Vehicle detection
         </Typography>
       </Grid>
-      <p>{props.deviceId}</p>
 
       {vehicleList.length > 0 &&
         vehicleList.map((vehicle) => (

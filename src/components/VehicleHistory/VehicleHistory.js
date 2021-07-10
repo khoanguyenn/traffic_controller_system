@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import moment from "moment";
+import MomentUtils from '@date-io/moment';
 import {
   DateTimePicker,
   MuiPickersUtilsProvider,
@@ -56,13 +57,12 @@ const VehicleHistory = (props) => {
   };
 
   const handleHistoryQuery = async () => {
-    console.log(deviceId);
-    console.log(selectedDateFrom);
-    console.log(selectedDateTo);
+    const parsedFrom = moment(new Date(selectedDateFrom)).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+    const parsedTo = moment(new Date(selectedDateTo)).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
     setLoadingHistory(true);
     (async () => {
       setVehicleHistory(
-        await API.getVehicleHistory(deviceId, selectedDateFrom, selectedDateTo)
+        await API.getVehicleHistory(deviceId, parsedFrom, parsedTo)
       );
       setLoadingHistory(false);
     })();
@@ -99,16 +99,16 @@ const VehicleHistory = (props) => {
           </Typography>
         </div> */}
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
           <DateTimePicker
             value={selectedDateFrom}
             onChange={handleDateChangeFrom}
-            format="yyyy/MM/dd hh:mm a"
+            format="DD/MM/yyyy hh:mm"
           />
           <DateTimePicker
             value={selectedDateTo}
             onChange={handleDateChangeTo}
-            format="yyyy/MM/dd hh:mm a"
+            format="DD/MM/yyyy hh:mm"
           />
         </MuiPickersUtilsProvider>
 

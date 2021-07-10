@@ -1,4 +1,5 @@
 import { Endpoint } from "./endpoints";
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 
 export async function getVehicles() {
   const response = await fetch(Endpoint.GET_VEHICLES);
@@ -30,7 +31,7 @@ export async function getDevice(deviceId) {
 
 export async function getVehicleHistory(deviceId, from, to) {
   const requestUrl = Endpoint.GET_HISTORIES;
-  const queryParam = `?deviceId=${deviceId}&start=${from.toString().substring(0, 20)}&stop=${to.toString().substring(0, 20)}`
+  const queryParam = `?deviceId=${deviceId}&start=${from.toString()}&stop=${to.toString()}`
   console.log(requestUrl + queryParam)
   
   await new Promise((resolve) => setTimeout(resolve, 1000));
