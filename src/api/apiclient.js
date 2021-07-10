@@ -32,41 +32,7 @@ export async function getDevice(deviceId) {
 export async function getVehicleHistory(deviceId, from, to) {
   const requestUrl = Endpoint.GET_HISTORIES;
   const queryParam = `?deviceId=${deviceId}&start=${from.toString()}&stop=${to.toString()}`
-  console.log(requestUrl + queryParam)
-  
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const histories = [
-    {
-      count: 169,
-      title: "car",
-      image: "https://via.placeholder.com/600/d32776",
-      time: "2021-07-09T17:10:47.988Z",
-    },
-    {
-      count: 170,
-      title: "bus",
-      image: "https://via.placeholder.com/600/d32776",
-      time: "2021-07-09T17:10:47.988Z",
-    },
-    {
-      count: 171,
-      title: "motorbike",
-      image: "https://via.placeholder.com/600/d32776",
-      time: "2021-07-09T17:10:47.988Z",
-    },
-    {
-      count: 172,
-      title: "car",
-      image: "https://via.placeholder.com/600/d32776",
-      time: "2021-07-09T17:10:47.988Z",
-    },
-    {
-      count: 173,
-      title: "truck",
-      image: "https://via.placeholder.com/600/d32776",
-      time: "2021-07-09T17:10:47.988Z",
-    },
-  ];
-
-  return histories;
+  const resp = await fetch(requestUrl + queryParam);
+  const jsonResp = await resp.json();
+  return jsonResp.histories;
 }

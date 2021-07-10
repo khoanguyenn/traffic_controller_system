@@ -27,10 +27,15 @@ const VehicleList = (props) => {
 
   const handleMessage = (message) => {
     const { metadata } = JSON.parse(message);
-
+    console.log(metadata)
     // solve concurency problem by placeing callback function
     setVehicleList((vehicleList) => {
-      return [...vehicleList, {id: metadata.count, url: 'https://via.placeholder.com/150', title: metadata.count.toString()}];
+      if (vehicleList.length < 5) {
+        return [...vehicleList, {id: metadata.count, url: metadata.image, title: metadata.count.toString()}];
+      } else {
+        vehicleList.shift();
+        return [...vehicleList, {id: metadata.count, url: metadata.image, title: metadata.count.toString()}];
+      }
     });
   };
 
