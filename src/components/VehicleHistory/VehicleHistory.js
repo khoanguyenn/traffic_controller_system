@@ -103,12 +103,12 @@ const VehicleHistory = (props) => {
           <DateTimePicker
             value={selectedDateFrom}
             onChange={handleDateChangeFrom}
-            format="DD/MM/yyyy hh:mm"
+            format="DD/MM/yyyy hh:mm A"
           />
           <DateTimePicker
             value={selectedDateTo}
             onChange={handleDateChangeTo}
-            format="DD/MM/yyyy hh:mm"
+            format="DD/MM/yyyy hh:mm A"
           />
         </MuiPickersUtilsProvider>
 
