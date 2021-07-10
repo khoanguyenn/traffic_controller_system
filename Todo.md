@@ -7,6 +7,7 @@ Bugs:
 - Logged in -> Refresh -> Require to loggin again. 
   - Reason: we will lost the state logged in every time we refresh. 
   - Fix: store localStorage
+- Key for each component of vehicle list
 
 Done:
 - ~~Basic login feature~~
