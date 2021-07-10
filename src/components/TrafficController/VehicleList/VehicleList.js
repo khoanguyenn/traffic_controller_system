@@ -30,7 +30,7 @@ const VehicleList = (props) => {
     console.log(metadata)
     // solve concurency problem by placeing callback function
     setVehicleList((vehicleList) => {
-      if (vehicleList.length < 5) {
+      if (vehicleList.length < 30) {
         return [...vehicleList, {id: metadata.count, url: metadata.image, title: metadata.count.toString()}];
       } else {
         vehicleList.shift();
