@@ -46,7 +46,7 @@ const VehicleHistory = (props) => {
   const [displayingVehicle, setDisplayingVehicle] = React.useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [page, setPage] = React.useState(1);
-  const [maxPage, setMaxPage] = React.useState(0);
+  const [maxPage, setMaxPage] = React.useState(1);
   const ROWS_PER_PAGE = 32;
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const VehicleHistory = (props) => {
       );
       setVehicleHistory(_vehicleHistory);
       setDisplayingVehicle(_vehicleHistory.slice(0, ROWS_PER_PAGE));
-      setMaxPage(getMaxPage());
+      setMaxPage(_vehicleHistory.length > 0 ? Math.ceil(_vehicleHistory.length / ROWS_PER_PAGE) : 1);
       setLoadingHistory(false);
     })();
   };
@@ -103,16 +103,9 @@ const VehicleHistory = (props) => {
       )
     );
   };
-
-  const getMaxPage = () => {
-    return Math.ceil(
-      vehicleHistory ? vehicleHistory.length / ROWS_PER_PAGE : 0
-    );
-  };
-
   const beautifyTime = (time) => {
-    return moment(time).format("DD-MM-yyyy HH:mm")
-  }
+    return moment(time).format("DD-MM-yyyy HH:mm");
+  };
 
   return (
     <Layout>
@@ -174,13 +167,16 @@ const VehicleHistory = (props) => {
           <Button onClick={onPrevious}>PREVIOUS</Button>
           <Button onClick={onNext}>NEXT</Button>
         </ButtonGroup>
-        {maxPage > 0 &&
-          <Typography gutterBottom variant="h6">
-            Page {page} of {maxPage}
-          </Typography>
-        }
+
+        <Typography gutterBottom variant="h6">
+          Page {page} of {maxPage}
+        </Typography>
 
         {loadingHistory && <CircularProgress />}
+
+        {displayingVehicle.length === 0 &&
+        <p>No history...</p>
+        }
 
         {/* Device History */}
         <Grid container spacing={2}>
@@ -194,7 +190,7 @@ const VehicleHistory = (props) => {
                     id: vehicle.count,
                     title: vehicle.title,
                     url: vehicle.image,
-                    time: beautifyTime(vehicle.time)
+                    time: beautifyTime(vehicle.time),
                   }}
                 />
               </Grid>
