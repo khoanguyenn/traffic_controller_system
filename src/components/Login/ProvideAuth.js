@@ -2,13 +2,13 @@ import React, { useContext, createContext, useState } from "react";
 import { Redirect, Route } from "react-router-dom";
 
 const fakeAuth = {
-  isAuthenticated: false,
+  isAuthenticated: window.localStorage.getItem("isAuthenticated"),
   signin(cb) {
-    fakeAuth.isAuthenticated = true;
+    window.localStorage.setItem("isAuthenticated", true);
     setTimeout(cb, 100); // fake async
   },
   signout(cb) {
-    fakeAuth.isAuthenticated = false;
+    window.localStorage.removeItem("isAuthenticated")
     setTimeout(cb, 100);
   },
 };
@@ -51,12 +51,11 @@ function useProvideAuth() {
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 function PrivateRoute({ children, ...rest }) {
-    let auth = AuthProvider.useAuth();
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          auth.user ? (
+          window.localStorage.getItem("isAuthenticated") ? (
             children
           ) : (
             <Redirect
