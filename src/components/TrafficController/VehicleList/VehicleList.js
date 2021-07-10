@@ -15,6 +15,7 @@ const VehicleList = (props) => {
     socket.emit("join", deviceId);
     socket.on("message", handleMessage);
 
+    // leave the room after component is destroyed
     return () => {
       socket.emit("leave", deviceId);
     };
