@@ -75,7 +75,12 @@ const VehicleHistory = (props) => {
       );
       setVehicleHistory(_vehicleHistory);
       setDisplayingVehicle(_vehicleHistory.slice(0, ROWS_PER_PAGE));
-      setMaxPage(_vehicleHistory.length > 0 ? Math.ceil(_vehicleHistory.length / ROWS_PER_PAGE) : 1);
+      setPage(1); // set to default page
+      setMaxPage(
+        _vehicleHistory.length > 0
+          ? Math.ceil(_vehicleHistory.length / ROWS_PER_PAGE)
+          : 1
+      );
       setLoadingHistory(false);
     })();
   };
@@ -168,15 +173,16 @@ const VehicleHistory = (props) => {
           <Button onClick={onNext}>NEXT</Button>
         </ButtonGroup>
 
+        <Typography gutterBottom variant="h8">
+          There are {vehicleHistory.length} results.
+        </Typography>
         <Typography gutterBottom variant="h6">
           Page {page} of {maxPage}
         </Typography>
 
         {loadingHistory && <CircularProgress />}
 
-        {displayingVehicle.length === 0 &&
-        <p>No history...</p>
-        }
+        {displayingVehicle.length === 0 && <p>History query result is empty. Please try with another query...</p>}
 
         {/* Device History */}
         <Grid container spacing={2}>
