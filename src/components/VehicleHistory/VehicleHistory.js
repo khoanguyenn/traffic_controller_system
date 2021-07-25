@@ -47,6 +47,8 @@ const VehicleHistory = (props) => {
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [page, setPage] = React.useState(1);
   const [maxPage, setMaxPage] = React.useState(1);
+  const [vehicleFilter, setVehicleFilter] = React.useState("all"); // display vehicle with filter 
+  const [vehicleType, setVehicleType] = React.useState(["all"]); // initialize with empty array
   const ROWS_PER_PAGE = 32;
 
   useEffect(() => {
@@ -74,6 +76,7 @@ const VehicleHistory = (props) => {
         parsedTo
       );
       setVehicleHistory(_vehicleHistory);
+      setVehicleType(["all", ... new Set(_vehicleHistory.map(x => x.title))]);
       setDisplayingVehicle(_vehicleHistory.slice(0, ROWS_PER_PAGE));
       setPage(1); // set to default page
       setMaxPage(
@@ -112,6 +115,10 @@ const VehicleHistory = (props) => {
     return moment(time).format("DD-MM-yyyy HH:mm");
   };
 
+  const handleVehicleFilterChange = (event) => {
+    setVehicleFilter(event.target.value);
+  };
+
   return (
     <Layout>
       <div className={classes.querySelection}>
@@ -133,15 +140,6 @@ const VehicleHistory = (props) => {
               ))}
           </Select>
         </FormControl>
-
-        {/* <div>
-          <Typography className={classes.label} variant="h8">
-            From:
-          </Typography>
-          <Typography className={classes.label} variant="h8">
-            To:
-          </Typography>
-        </div> */}
 
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <DateTimePicker
@@ -176,6 +174,20 @@ const VehicleHistory = (props) => {
         <Typography gutterBottom variant="h8">
           There are {vehicleHistory.length} results.
         </Typography>
+
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Vehicle Type: </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={vehicleFilter}
+            onChange={handleVehicleFilterChange}
+          >
+            {vehicleType && vehicleType.map((type) => (
+              <MenuItem value={type}>{type}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Typography gutterBottom variant="h6">
           Page {page} of {maxPage}
         </Typography>
@@ -190,15 +202,17 @@ const VehicleHistory = (props) => {
             displayingVehicle.length > 0 &&
             displayingVehicle.map((vehicle, index) => (
               <Grid item xs={3} key={index}>
-                <VehicleCard
-                  key={index}
-                  vehicle={{
-                    id: vehicle.count,
-                    title: vehicle.title,
-                    url: vehicle.image,
-                    time: beautifyTime(vehicle.time),
-                  }}
-                />
+                {vehicleFilter == "all" || vehicle.title == vehicleFilter &&
+                  <VehicleCard
+                    key={index}
+                    vehicle={{
+                      id: vehicle.count,
+                      title: vehicle.title,
+                      url: vehicle.image,
+                      time: beautifyTime(vehicle.time),
+                    }}
+                  />
+                }
               </Grid>
             ))}
         </Grid>
